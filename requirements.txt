@@ -1,0 +1,4 @@
+sqlalchemy pydantic python-dotenv
+pymysql psycopg2-binary
+passlib[bcrypt] python-jose
+alembic
