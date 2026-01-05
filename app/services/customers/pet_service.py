@@ -11,13 +11,14 @@ MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB (adjust to your config)
 
 def store_pet_service(
     db: Session,
-    data,
+    data: dict,
     file: UploadFile | None,
     user_id: int
 ):
     try:
         # 🔐 BEGIN TRANSACTION
-        if data.is_primary == 1:
+         # ✅ FIX HERE
+        if data.get("is_primary") == 1:
             db.query(PetInfo).filter(
                 PetInfo.owner_id == user_id,
                 PetInfo.is_primary == 1
@@ -25,17 +26,17 @@ def store_pet_service(
 
         pet = PetInfo(
             owner_id=user_id,
-            pet_type=data.pet_type,
-            pet_name=data.pet_name,
-            age_yr=data.age_yr,
-            age_month=data.age_month,
-            dob=data.dob,
-            breed=data.breed,
-            color=data.color,
-            height=data.height,
-            weight=data.weight,
-            gender=data.gender,
-            is_primary=data.is_primary,
+            pet_type=data.get("pet_type"),
+            pet_name=data.get("pet_name"),
+            age_yr=data.get("age_yr"),
+            age_month=data.get("age_month"),
+            dob=data.get("dob"),
+            breed=data.get("breed"),
+            color=data.get("color"),
+            height=data.get("height"),
+            weight=data.get("weight"),
+            gender=data.get("gender"),
+            is_primary=data.get("is_primary"),
             created_at=datetime.utcnow(),
             created_by=user_id
         )

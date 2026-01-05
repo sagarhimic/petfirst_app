@@ -18,7 +18,6 @@ class ValidatePetRequest(BaseModel):
     weight: int
 
     gender: int
-    pet_profile_pic: Optional[str] = None
     is_primary: Optional[int] = None
 
     class Config:
