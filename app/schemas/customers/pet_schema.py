@@ -1,14 +1,15 @@
 from pydantic import BaseModel
 from datetime import datetime
 from decimal import Decimal
+from typing import Optional
 
 class ValidatePetRequest(BaseModel):
     pet_type: int
     pet_name: str
 
-    age_yr: int
-    age_month: int
-    dob: datetime
+    age_yr: Optional[int] = None
+    age_month: Optional[int] = None
+    dob: Optional[datetime] = None
 
     breed: int
     color: int
@@ -17,7 +18,8 @@ class ValidatePetRequest(BaseModel):
     weight: int
 
     gender: int
-    pet_profile_pic: str
+    pet_profile_pic: Optional[str] = None
+    is_primary: Optional[int] = None
 
-    status: int
-    is_primary: int
+    class Config:
+        extra = "forbid"  # ❗ Reject unexpected fields

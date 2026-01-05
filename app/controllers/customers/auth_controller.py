@@ -11,8 +11,8 @@ def get_db():
     finally:
         db.close()
 
-def sendOTP(request: SendOTPRequest, db: Session = Depends(get_db)):
+def sendOTP(request: SendOTPRequest = Depends(), db: Session = Depends(get_db)):
     return send_otp(db, request.mobile)
 
-def validateOTP(request: ValidateOTPRequest, db: Session = Depends(get_db)):
+def validateOTP(request: ValidateOTPRequest = Depends(), db: Session = Depends(get_db)):
     return validate_otp(db, request)

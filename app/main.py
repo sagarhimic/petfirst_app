@@ -45,7 +45,7 @@ def custom_openapi():
     # 🔐 Only protect specific routes 
     secure_paths = [
         "/api/customer/get-profile",
-        "/customer/add-pet",
+        "/api/customer/add-pet",
         "/api/customers/customer/logout"
         ]
 
