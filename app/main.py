@@ -46,6 +46,7 @@ def custom_openapi():
     secure_paths = [
         "/api/customer/get-profile",
         "/api/customer/add-pet",
+        "/api/customer/update-pet-pic/{pet_id}",
         "/api/customers/customer/logout"
         ]
 

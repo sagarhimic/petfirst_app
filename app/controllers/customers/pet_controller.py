@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from app.core.jwt_auth import get_auth_user_id
 from app.core.database import get_db
-from app.services.customers.pet_service import store_pet_service
+from app.services.customers.pet_service import store_pet_service, update_pet_pic_service
 
 def store_pet(
     pet_type: int = Form(...),
@@ -42,3 +42,11 @@ def store_pet(
     }
 
     return store_pet_service(db, data, file, user_id)
+
+def update_pet_pic(
+    pet_id: int,
+    file: Optional[UploadFile] = File(...),
+    user_id: int = Depends(get_auth_user_id),
+    db: Session = Depends(get_db)
+):
+    return update_pet_pic_service(db, pet_id, file, user_id)

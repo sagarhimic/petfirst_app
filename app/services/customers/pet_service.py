@@ -87,3 +87,73 @@ def store_pet_service(
             status_code=500,
             detail=str(e)
         )
+
+def update_pet_pic_service(
+    db: Session,
+    pet_id: int,
+    file: UploadFile,
+    user_id: int
+):
+    try:
+        # 🔍 Check pet belongs to user
+        pet = (
+            db.query(PetInfo)
+            .filter(PetInfo.id == pet_id, PetInfo.owner_id == user_id)
+            .first()
+        )
+
+        if not pet:
+            raise HTTPException(status_code=403, detail="Access Denied")
+
+        # 📄 Validate extension
+        ext = file.filename.split(".")[-1].lower()
+        if ext not in ALLOWED_EXTENSIONS:
+            raise HTTPException(
+                status_code=400,
+                detail="Only pdf, jpg, jpeg, png files are allowed"
+            )
+
+        # 📏 Validate size
+        contents = file.file.read()
+        if len(contents) > MAX_FILE_SIZE:
+            raise HTTPException(
+                status_code=400,
+                detail="Picture size exceeds allowed limit"
+            )
+
+        # 🗂 Folder structure
+        folder_path = f"uploads/customers/pets/{user_id}/{datetime.now().strftime('%Y/%m')}"
+        os.makedirs(folder_path, exist_ok=True)
+
+        filename = f"pet_{datetime.now().strftime('%Y%m%d%H%M%S')}.{ext}"
+        new_path = os.path.join(folder_path, filename)
+
+        # 🗑 Delete old image
+        if pet.pet_profile_pic and os.path.exists(pet.pet_profile_pic):
+            os.remove(pet.pet_profile_pic)
+
+        # 💾 Save new image
+        with open(new_path, "wb") as f:
+            f.write(contents)
+
+        # 📝 Update DB
+        pet.pet_profile_pic = new_path
+        pet.updated_at = datetime.utcnow()
+        pet.updated_by = user_id
+
+        db.commit()
+
+        return {
+            "status": True,
+            "message": "Pet Pic Updated Successfully."
+        }
+
+    except HTTPException:
+        db.rollback()
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail="Something went wrong."
+        )
