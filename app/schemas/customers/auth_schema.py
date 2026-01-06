@@ -1,9 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class SendOTPRequest(BaseModel):
-    mobile: str
-
 class ValidateOTPRequest(BaseModel):
     mobile: str
     mobile_otp: str
