@@ -8,6 +8,13 @@ from sqlalchemy import (
     Index
 )
 from app.core.database import Base
+from sqlalchemy.orm import relationship
+from app.core.database import Base
+from app.models.user import User
+from app.models.pet_types import PetTypes
+from app.models.breeds import Breeds
+from app.models.colors import Colors
+from app.models.gender_info import GenderInfo
 from datetime import datetime
 
 class PetInfo(Base):
@@ -44,7 +51,6 @@ class PetInfo(Base):
 
     updated_at = Column(DateTime, nullable=True, default=datetime.utcnow, onupdate=datetime.utcnow)
     updated_by = Column(Integer, nullable=True)
-
 
 # Optional explicit indexes (already covered by index=True above)
 Index("idx_pet_info_owner_id", PetInfo.owner_id)

@@ -1,0 +1,9 @@
+from sqlalchemy import Column, Integer, String, DateTime
+from app.core.database import Base
+
+class Colors(Base):
+    __tablename__ = "pet_colors"
+
+    id = Column(Integer, primary_key=True, index=True)
+    pet_type_id = Column(Integer)
+    name = Column(String(55), nullable=True)

@@ -47,6 +47,9 @@ def custom_openapi():
         "/api/customer/get-profile",
         "/api/customer/add-pet",
         "/api/customer/update-pet-pic/{pet_id}",
+        "/api/customer/get-pet-details",
+        "/api/customer/update-pet/{pet_id}",
+        "/api/customer/add-primary-pet"
         "/api/customers/customer/logout"
         ]
 
