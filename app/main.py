@@ -5,6 +5,7 @@ from app.routes.customers_auth import router
 from app.routes.customers_logout import router as logout_router
 from app.routes.customers_profile import router as profile_router
 from app.routes.customers_pets_info import router as pet_router
+from app.routes.trainers import router as trainer_router
 from fastapi.openapi.utils import get_openapi
 from fastapi.security import HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
@@ -72,3 +73,4 @@ app.include_router(router)
 app.include_router(logout_router)
 app.include_router(profile_router)
 app.include_router(pet_router)
+app.include_router(trainer_router)
