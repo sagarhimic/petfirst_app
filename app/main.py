@@ -51,6 +51,7 @@ def custom_openapi():
         "/api/customer/update-pet/{pet_id}",
         "/api/customer/add-primary-pet",
         "/get-pet/{pet_id}",
+        "/add-user-location/{user_id}",
         "/api/customers/customer/logout"
         ]
 

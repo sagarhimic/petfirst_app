@@ -1,7 +1,9 @@
 from sqlalchemy.orm import Session
-from fastapi import Request
+from fastapi import Request, HTTPException
 from app.models.user import User
 from app.models.user_personal_info import UserPersonalInfo
+from app.models.user_location import UserLocation
+from datetime import datetime
 
 def get_profile_service(db: Session, user_id: int, request: Request):
     user = db.query(User).filter(User.id == user_id).first()
@@ -42,3 +44,51 @@ def get_profile_service(db: Session, user_id: int, request: Request):
             "access_for": user.access_for
         }
     }
+
+
+def store_user_location_service(
+    db: Session,
+    data: dict,
+    user_id: int,
+):
+    try:
+        # 🔐 BEGIN TRANSACTION
+         # ✅ FIX HERE
+        if data.is_primary == 1:
+            db.query(UserLocation).filter(
+                UserLocation.user_id == user_id,
+                UserLocation.is_primary == 1
+            ).update({"is_primary": None})
+
+        location = UserLocation(
+            user_id=user_id,
+            location=data.location,
+            location_type=data.location_type,
+            address=data.address,
+            country=data.country,
+            city=data.city,
+            state=data.state,
+            pin_code=data.pin_code,
+            is_primary=data.is_primary,
+            latitude=data.latitude,
+            longitude=data.longitude,
+            created_at=datetime.utcnow(),
+            created_by=user_id
+        )
+
+        db.add(location)
+        db.flush()  # ✅ get pet.id before commit
+        db.commit()
+
+        return {
+            "status": True,
+            "pet_id": location.location_id,
+            "message": "Location added successfully."
+        }
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
