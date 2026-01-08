@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from app.core.jwt_auth import get_auth_user_id
 from app.core.database import get_db
-from app.services.customers.pet_service import store_pet_service, update_pet_pic_service, pet_details_service, update_pet_service, pet_update_primary_service
+from app.services.customers.pet_service import store_pet_service, update_pet_pic_service, pet_details_service, update_pet_service, pet_update_primary_service, edit_pet_service
 from app.schemas.customers.pet_schema import UpdatePetRequest, PetUpdatePrimaryRequest
 
 def store_pet(
@@ -110,4 +110,12 @@ def pet_update_primary(
         pet_id=pet_id,
     )
     return pet_update_primary_service(db, user_id, data)
+
+def edit_pet_details(
+    request: Request,
+    pet_id: int,
+    user_id: int = Depends(get_auth_user_id),
+    db: Session = Depends(get_db)
+):
+    return edit_pet_service(db, user_id, pet_id, request)
 

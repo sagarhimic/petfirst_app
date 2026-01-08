@@ -247,6 +247,77 @@ def pet_details_service(
         print("PET DETAILS ERROR:", str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
+def edit_pet_service(
+    db: Session,
+    user_id: int,
+    pet_id: int,
+    request: Request
+):
+    try:
+        result = (
+            db.query(
+                PetInfo.id.label("pet_id"),
+                PetInfo.pet_name,
+                PetInfo.age_yr,
+                PetInfo.age_month,
+                PetInfo.dob,
+                PetInfo.height,
+                PetInfo.weight,
+                PetInfo.is_primary,
+                PetInfo.pet_profile_pic,
+                PetTypes.name.label("pet_type"),
+                Breeds.name.label("breed"),
+                Colors.name.label("color"),
+                GenderInfo.name.label("gender"),
+            )
+            .outerjoin(PetTypes, PetInfo.pet_type == PetTypes.id)
+            .outerjoin(Breeds, PetInfo.breed == Breeds.id)
+            .outerjoin(Colors, PetInfo.color == Colors.id)
+            .outerjoin(GenderInfo, PetInfo.gender == GenderInfo.id)
+            .filter(PetInfo.id == pet_id, PetInfo.owner_id == user_id)
+            .first()
+        )
+
+        if not result:
+            return {
+                "status": False,
+                "message": "No Data Found!",
+                "data": []
+            }
+
+        base_url = str(request.base_url)
+        
+        pet_details = {
+            "pet_id": result.pet_id,
+            "pet_type": result.pet_type,
+            "pet_name": result.pet_name,
+            "age": (
+                f"{result.age_yr}Y {result.age_month}M"
+                if result.age_yr or result.age_month else None
+            ),
+            "dob": format_date(result.dob),
+            "breed": result.breed,
+            "color": result.color,
+            "height": float(result.height) if result.height else None,
+            "weight": result.weight,
+            "gender": result.gender,
+            "pet_profile_pic": (
+                base_url + result.pet_profile_pic.lstrip("/")
+                if result.pet_profile_pic else None
+            ),
+            "is_primary": result.is_primary
+        }
+
+        return {
+            "status": True,
+            "message": "Edit Pet Info.",
+            "data": pet_details
+        }
+
+    except Exception as e:
+        print("PET DETAILS ERROR:", str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
 def update_pet_service(
     db: Session,
     pet_id: int,
