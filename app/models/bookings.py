@@ -4,7 +4,9 @@ from datetime import datetime, time
 from app.core.database import Base
 
 class Bookings(Base):
+    
     __tablename__ = "bookings"
+    
     booking_id = Column(Integer, primary_key=True)
     franchise_id = Column(Integer, ForeignKey("trainers.id"))
     service_type = Column(Integer)

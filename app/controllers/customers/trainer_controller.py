@@ -5,6 +5,7 @@ from typing import Optional
 from app.core.database import get_db
 from app.schemas.customers.trainer_schema import GetTrainersRequest
 from app.services.customers.trainer_service import get_trainers_service
+from app.services.customers.trainer_details_service import trainer_details_service
 
 def get_trainers(
     latitude: Decimal = Query(...),
@@ -27,3 +28,18 @@ def get_trainers(
         "message": "Trainers Info.",
         "data": trainers
     }
+
+def trainer_details(
+    trainer_id: int,
+    latitude: Decimal = Query(...),
+    longitude: Decimal = Query(...),
+    db: Session = Depends(get_db)
+):
+
+    data = GetTrainersRequest(
+        latitude=latitude,
+        longitude=longitude,
+        trainer_id=trainer_id
+    )
+
+    return trainer_details_service(db, trainer_id, data)

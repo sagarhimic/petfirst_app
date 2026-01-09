@@ -9,6 +9,7 @@ from app.routes.trainers import router as trainer_router
 from fastapi.openapi.utils import get_openapi
 from fastapi.security import HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
+import app.models
 
 app = FastAPI(title="PetFirst API")
 
