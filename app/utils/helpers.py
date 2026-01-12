@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 
 def format_date(date_val: Optional[datetime], fmt: str = "%d-%m-%Y") -> Optional[str]:
@@ -37,4 +37,13 @@ def rating_perc(count: int, total: int) -> int:
         return 0
 
     return round((count / total) * 100)
+
+def get_order_date_format(value):
+    if not value:
+        return None
+
+    if isinstance(value, (datetime, date)):
+        return value.strftime("%d-%m-%Y")
+
+    return str(value)
 
