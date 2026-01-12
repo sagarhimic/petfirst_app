@@ -211,3 +211,132 @@ def cart_details_service(db: Session, user_id: int):
         "bill_details": bill_details,
         "message": "cart details info."
     }
+
+ 
+#  Remove Cart service
+def remove_service_by_cart(db: Session, user_id: int, service_id: int):
+    try:
+        # -----------------------------
+        # Get cart IDs for user
+        # -----------------------------
+        cart_ids = (
+            db.query(TrainerCart.cart_id)
+            .filter(TrainerCart.customer_id == user_id)
+            .all()
+        )
+        cart_ids = [c.cart_id for c in cart_ids]
+
+        if not cart_ids:
+            return {
+                "status": False,
+                "message": "Cart is empty"
+            }
+
+        # -----------------------------
+        # Delete service from cart
+        # -----------------------------
+        deleted = (
+            db.query(TrainerCartDetails)
+            .filter(TrainerCartDetails.service_id == service_id)
+            .filter(TrainerCartDetails.cart_id.in_(cart_ids))
+            .delete(synchronize_session=False)
+        )
+
+        # -----------------------------
+        # Service not found
+        # -----------------------------
+        if deleted == 0:
+            db.commit()
+            return {
+                "status": False,
+                "message": "Service not found in cart"
+            }
+
+        # -----------------------------
+        # Check remaining services
+        # -----------------------------
+        remaining = (
+            db.query(TrainerCartDetails)
+            .filter(TrainerCartDetails.cart_id.in_(cart_ids))
+            .count()
+        )
+
+        # -----------------------------
+        # Delete cart if empty
+        # -----------------------------
+        if remaining == 0:
+            (
+                db.query(TrainerCart)
+                .filter(TrainerCart.customer_id == user_id)
+                .delete(synchronize_session=False)
+            )
+
+        db.commit()
+
+        return {
+            "status": True,
+            "message": "removes service from cart."
+        }
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"{str(e)}"
+        )
+
+
+def clear_cart_service(
+    db: Session,
+    user_id: int,
+    trainer_id: int
+):
+    try:
+        # -----------------------------
+        # Check if cart exists
+        # -----------------------------
+        cart_ids = (
+            db.query(TrainerCart.cart_id)
+            .filter(TrainerCart.customer_id == user_id)
+            .filter(TrainerCart.trainer_id == trainer_id)
+            .all()
+        )
+
+        cart_ids = [c.cart_id for c in cart_ids]
+
+        if not cart_ids:
+            return {
+                "status": False,
+                "message": "Cart is empty"
+            }
+
+        # -----------------------------
+        # Delete cart details
+        # -----------------------------
+        db.query(TrainerCartDetails) \
+            .filter(TrainerCartDetails.cart_id.in_(cart_ids)) \
+            .delete(synchronize_session=False)
+
+        # -----------------------------
+        # Delete cart
+        # -----------------------------
+        db.query(TrainerCart) \
+            .filter(TrainerCart.customer_id == user_id) \
+            .filter(TrainerCart.trainer_id == trainer_id) \
+            .delete(synchronize_session=False)
+
+        db.commit()
+
+        return {
+            "status": True,
+            "message": "cleared cart."
+        }
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
+
+
