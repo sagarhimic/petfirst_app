@@ -1,11 +1,12 @@
-from fastapi import Depends, Request, Form
+from fastapi import Depends, Request, Form, UploadFile, File
 from decimal import Decimal
 from sqlalchemy.orm import Session
 from typing import Optional
 from app.core.database import get_db
 from app.core.jwt_auth import get_auth_user_id
 from app.schemas.customers.auth_schema import ValidateUserLocationRequest
-from app.services.customers.profile_service import get_profile_service, store_user_location_service
+from app.services.customers.profile_service import get_profile_service, store_user_location_service, modify_profile_name_service, update_profile_pic_service, get_locations_service, delete_location_service, location_update_primary_service
+from app.schemas.customers.profile_schema import ModifyProfileNameRequest
 
 def get_profile(
     request: Request,
@@ -42,3 +43,38 @@ def save_location(
     )
 
     return store_user_location_service(db, data, user_id)
+
+async def modify_profile_name(
+    payload: ModifyProfileNameRequest,
+    user_id: int = Depends(get_auth_user_id),
+    db: Session = Depends(get_db)
+):
+    return modify_profile_name_service(db, user_id, payload)
+
+def update_profile_pic(
+    profile_pic: UploadFile = File(None),
+    user_id: int = Depends(get_auth_user_id),
+    db: Session = Depends(get_db)
+):
+    return update_profile_pic_service(db, user_id, profile_pic)
+
+def get_locations(
+    user_id: int = Depends(get_auth_user_id),
+    db: Session = Depends(get_db)
+):
+    return get_locations_service(db, user_id)
+
+def update_primary_location(
+    location_id: int = Form(...),
+    user_id: int = Depends(get_auth_user_id),
+    db: Session = Depends(get_db)
+):
+    return location_update_primary_service(db, user_id, location_id)
+
+def delete_location(
+    location_id: int,
+    user_id: int = Depends(get_auth_user_id),
+    db: Session = Depends(get_db)
+):
+    return delete_location_service(db, user_id, location_id)
+    
