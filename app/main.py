@@ -7,12 +7,17 @@ from app.routes.customers_profile import router as profile_router
 from app.routes.customers_pets_info import router as pet_router
 from app.routes.trainers import router as trainer_router
 from app.routes.cart import router as cart_router
+from app.routes.customers_reunion import router as reunion_router
 from fastapi.openapi.utils import get_openapi
 from fastapi.security import HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
 import app.models
 
 app = FastAPI(title="PetFirst API")
+
+app.state.config = {
+    "RECORDS_PER_PAGE": 10
+}
 
 # ✅ Allow frontend calls (CORS)
 app.add_middleware(
@@ -53,6 +58,11 @@ def custom_openapi():
         "/api/customer/get-locations",
         "/api/customer/update-primary-location",
         "/api/customer/delete-location/{location_id}",
+        "/api/customer/get-pet-parent",
+        "/api/customer/add-pet-parent",
+        "/api/customer/edit-pet-parent/{pet_parent_id}",
+        "/api/customer/update-pet-parent/{pet_parent_id}",
+        "/api/customer/delete-pet-parent/{pet_parent_id}",
         "/api/customer/add-pet",
         "/api/customer/update-pet-pic/{pet_id}",
         "/api/customer/get-pet-details",
@@ -84,3 +94,4 @@ app.include_router(profile_router)
 app.include_router(pet_router)
 app.include_router(trainer_router)
 app.include_router(cart_router)
+app.include_router(reunion_router)

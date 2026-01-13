@@ -46,4 +46,12 @@ def get_order_date_format(value):
         return value.strftime("%d-%m-%Y")
 
     return str(value)
+    
+def parent_types(val: int) -> str:
+    options = {
+        1: "Father",
+        2: "Mother",
+        3: "Siblings"
+    }
+    return options.get(val, "")
 

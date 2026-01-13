@@ -56,3 +56,5 @@ class PetInfo(Base):
 Index("idx_pet_info_owner_id", PetInfo.owner_id)
 Index("idx_pet_info_gender", PetInfo.gender)
 Index("idx_pet_info_breed", PetInfo.breed)
+
+
