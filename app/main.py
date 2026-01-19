@@ -8,6 +8,7 @@ from app.routes.customers_pets_info import router as pet_router
 from app.routes.trainers import router as trainer_router
 from app.routes.cart import router as cart_router
 from app.routes.customers_reunion import router as reunion_router
+from app.routes.customers_bank_info import router as bank_router
 from fastapi.openapi.utils import get_openapi
 from fastapi.security import HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
@@ -63,6 +64,10 @@ def custom_openapi():
         "/api/customer/pet-parent/{pet_parent_id}",
         "/api/customer/pet-parent/{pet_parent_id}/update",
         "/api/customer/pet-parent-delete/{pet_parent_id}",
+        "/api/customer/get-bank-details",
+        "/api/customer/add-bank-details",
+        "/api/customer/update-bank-primary/{bank_id}",
+        "/api/customer/delete-bank-account/{bank_id}",
         "/api/customer/add-pet",
         "/api/customer/update-pet-pic/{pet_id}",
         "/api/customer/get-pet-details",
@@ -95,3 +100,4 @@ app.include_router(pet_router)
 app.include_router(trainer_router)
 app.include_router(cart_router)
 app.include_router(reunion_router)
+app.include_router(bank_router)
