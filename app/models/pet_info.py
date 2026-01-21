@@ -52,6 +52,12 @@ class PetInfo(Base):
     updated_at = Column(DateTime, nullable=True, default=datetime.utcnow, onupdate=datetime.utcnow)
     updated_by = Column(Integer, nullable=True)
 
+    bookings = relationship(
+        "Bookings",
+        foreign_keys="Bookings.pet_id",
+        back_populates="pet"
+    )
+
 # Optional explicit indexes (already covered by index=True above)
 Index("idx_pet_info_owner_id", PetInfo.owner_id)
 Index("idx_pet_info_gender", PetInfo.gender)

@@ -1,7 +1,31 @@
 # app/models/__init__.py
 
-# Trainers
 from app.models.trainers.assign_trainer_service import UserService
-
-# Services
 from app.models.sub_services import SubService
+from app.models.user import User
+from app.models.bookings import Bookings
+from app.models.Franchises.franchise import Franchise
+from app.models.Franchises.doctor import Doctor
+from app.models.Franchises.doctor_info import DoctorInfo
+from app.models.services import Services
+from app.models.booking_status import BookingStatus
+from app.models.booking_address import BookingAddress
+from app.models.booking_details import BookingDetails
+from app.models.booking_trans import BookingTransaction
+from app.models.trainer import Trainer
+from app.models.trainer_personal_info import TrainerPersonalInfo
+from app.models.trainer_review import TrainerReview
+from app.models.service_images import ServiceImages
+from app.models.trainers.trainer_service_reviews import TrainerServiceReview
+from app.models.sub_category_services import SubCategoryServices
+from app.models.user_location import UserLocation
+from app.models.user_otp import UserOTP
+from app.models.user_personal_info import UserPersonalInfo
+from app.models.pet_info import PetInfo
+from app.models.user_device import UserDevice
+from app.models.bank_info import CustomerBankDetails
+from app.models.trainer import Trainer
+from app.models.trainers.trainer_cart import TrainerCart
+from app.models.trainers.trainer_cart_details import TrainerCartDetails
+from app.models.Management.Events.events import Events
+

@@ -11,6 +11,22 @@ def format_date(date_val: Optional[datetime], fmt: str = "%d-%m-%Y") -> Optional
         return None
     return date_val.strftime(fmt)
 
+def format_date_db(date_value) -> Optional[str]:
+    """
+    Laravel equivalent of format_date_db()
+    Returns date in YYYY-MM-DD or None
+    """
+    if date_value in (None, "", []):
+        return None
+
+    try:
+        return datetime.fromisoformat(str(date_value)).strftime("%Y-%m-%d")
+    except ValueError:
+        try:
+            return datetime.strptime(str(date_value), "%d-%m-%Y").strftime("%Y-%m-%d")
+        except ValueError:
+            return None
+
 def format_time(value):
     """
     Convert time or datetime to 12-hour formatted time string

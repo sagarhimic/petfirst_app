@@ -61,7 +61,7 @@ def update_pet_parent(
     pet_parent_id: int,
     pet_id: int = Form(...),
     pet_parent_name=Form(...),
-    pet_parent_owner_name=Form(...),
+    parent_owner_name=Form(...),
     parent_mobile=Form(...),
     parent_email=Form(...),
     address=Form(...),
@@ -78,7 +78,7 @@ def update_pet_parent(
     data = UpdatePetParentRequest(
         pet_id=pet_id,
         pet_parent_name=pet_parent_name,
-        pet_parent_owner_name=pet_parent_owner_name,
+        parent_owner_name=parent_owner_name,
         parent_mobile=parent_mobile,
         parent_email=parent_email,
         address=address,

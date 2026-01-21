@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from app.core.database import Base
+from sqlalchemy.orm import relationship
 from datetime import datetime
 
 class User(Base):
@@ -22,3 +23,5 @@ class User(Base):
     updated_at = Column(DateTime, default=datetime.utcnow)
     last_logged_in_at = Column(DateTime, default=datetime.utcnow)
     access_for = Column(Integer, nullable=True)
+
+    bookings = relationship("Bookings",back_populates="customer")

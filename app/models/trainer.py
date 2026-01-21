@@ -18,6 +18,8 @@ class Trainer(Base):
     created_at = Column(DateTime, nullable=True, default=datetime.utcnow)
     created_by = Column(Integer, nullable=True)
     updated_at = Column(DateTime, nullable=True, default=datetime.utcnow, onupdate=datetime.utcnow)
-    updated_by = Column(Integer, nullable=True)
+    last_logged_in_at = Column(DateTime, nullable=True)
 
     personal_info = relationship("TrainerPersonalInfo", back_populates="trainer")
+
+    bookings = relationship("Bookings", back_populates="trainer")
