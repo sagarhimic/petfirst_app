@@ -28,4 +28,5 @@ from app.models.trainer import Trainer
 from app.models.trainers.trainer_cart import TrainerCart
 from app.models.trainers.trainer_cart_details import TrainerCartDetails
 from app.models.Management.Events.events import Events
+from app.models.transaction_status import TransactionStatus
 

@@ -30,3 +30,11 @@ class BookingDetails(Base):
         uselist=False,
         viewonly=True
     )
+
+    service = relationship(
+        "SubService",
+        primaryjoin="BookingDetails.service_id == foreign(SubService.id)",
+        uselist=False,
+        viewonly=True
+
+    )

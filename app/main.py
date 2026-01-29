@@ -79,6 +79,8 @@ def custom_openapi():
         "/add-to-cart",
         "/get-cart-details",
         "/get-bookings",
+        "/get-booking-details/{booking_id}",
+         "/cancel-booking",
         "/api/customers/customer/logout"
         ]
 

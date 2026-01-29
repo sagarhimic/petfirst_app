@@ -20,3 +20,11 @@ class BookingTransaction(Base):
     payment_bank = Column(String(15))
     created_at = Column(DateTime, nullable=True, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=True, default=datetime.utcnow)
+
+
+    tranStatus = relationship(
+        "TransactionStatus",
+        primaryjoin="BookingTransaction.payment_status == foreign(TransactionStatus.id)",
+        uselist=False,
+        viewonly=True
+    )
