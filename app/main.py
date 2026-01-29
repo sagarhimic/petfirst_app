@@ -80,7 +80,8 @@ def custom_openapi():
         "/get-cart-details",
         "/get-bookings",
         "/get-booking-details/{booking_id}",
-         "/cancel-booking",
+        "/cancel-booking",
+        "/get-upcoming-bookings",
         "/api/customers/customer/logout"
         ]
 

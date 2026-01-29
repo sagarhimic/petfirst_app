@@ -31,6 +31,9 @@ class Bookings(Base):
     updated_at = Column(DateTime, nullable=True, default=datetime.utcnow, onupdate=datetime.utcnow)
     updated_by = Column(Integer, nullable=True)
 
+
+    # Relationships Used for Bookings Model
+
     trainer = relationship("Trainer", back_populates="bookings")
 
     franchise = relationship("Franchise", back_populates="bookings")
