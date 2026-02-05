@@ -83,6 +83,7 @@ def custom_openapi():
         "/api/customer/cancel-booking",
         "/get-upcoming-bookings",
         "/api/customer/create-trainer-booking",
+        "/api/customer/reschedule-trainer-booking",
         "/api/customers/customer/logout"
         ]
 

@@ -1,5 +1,6 @@
-from datetime import datetime, date
+from datetime import datetime, date, time
 from typing import Optional
+from fastapi import HTTPException
 
 def format_date(date_val: Optional[datetime], fmt: str = "%d-%m-%Y") -> Optional[str]:
     """
@@ -70,4 +71,37 @@ def parent_types(val: int) -> str:
         3: "Siblings"
     }
     return options.get(val, "")
+
+def parse_date(value: str | None) -> date | None:
+    """
+    Accepts: 'YYYY-MM-DD'
+    Returns: date object
+    """
+    if not value:
+        return None
+
+    try:
+        return datetime.strptime(value, "%Y-%m-%d").date()
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid date format: {value}. Expected YYYY-MM-DD"
+        )
+
+
+def parse_time(value: str | None) -> time | None:
+    """
+    Accepts: 'HH:MM'
+    Returns: time object
+    """
+    if not value:
+        return None
+
+    try:
+        return datetime.strptime(value, "%H:%M").time()
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid time format: {value}. Expected HH:MM"
+        )
 

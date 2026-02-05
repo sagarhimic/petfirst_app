@@ -8,7 +8,9 @@ from app.models.booking_details import BookingDetails
 from app.models.booking_address import BookingAddress
 from app.models.user_location import UserLocation
 from app.models.booking_trans import BookingTransaction
+from app.models.booking_history_reschedule import BookingHistoryReschedule
 from app.services.customers.billing_service import create_bill_service
+from app.utils.helpers import parse_date, parse_time 
 
 
 def create_booking_service(
@@ -177,6 +179,114 @@ def create_booking_service(
             "service_details": bill_response["service_details"],
             "bill_details": bill_response["bill_details"],
             "message": "We have recieved your Booking details Successfully."
+        }
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
+
+
+def reschedule_trainer_booking_service(
+    db: Session,
+    user_id: int,
+    data: dict
+):
+    try:
+        booking_id = data.get("booking_id")
+
+        if not booking_id:
+            return {
+                "status": False,
+                "message": "select Booking"
+            }
+
+        booking_from = parse_date(data.get("booking_from"))
+        booking_to   = parse_date(data.get("booking_to"))
+        booking_time = parse_time(data.get("booking_time"))
+
+        print("Debug:",booking_from)
+
+        now = datetime.utcnow()
+
+        db.begin()
+
+        # -----------------------------
+        # Fetch previous booking
+        # -----------------------------
+        previous_detail = (
+            db.query(BookingDetails)
+            .filter(BookingDetails.booking_id == booking_id)
+            .first()
+        )
+
+        if not previous_detail:
+            db.rollback()
+            return {
+                "status": False,
+                "message": "Booking not found"
+            }
+
+        # -----------------------------
+        # Insert history
+        # -----------------------------
+        history = BookingHistoryReschedule(
+            booking_id=booking_id,
+            booking_from=previous_detail.booking_from,
+            booking_to=previous_detail.booking_to,
+            booking_time=previous_detail.booking_time
+        )
+        db.add(history)
+
+        # -----------------------------
+        # Update booking details
+        # -----------------------------
+        updated = (
+            db.query(BookingDetails)
+            .filter(BookingDetails.booking_id == booking_id)
+            .update(
+                {
+                    "booking_from": booking_from,
+                    "booking_to": booking_to,
+                    "booking_time": booking_time,
+                    "updated_at": now,
+                    "updated_by": user_id
+                },
+                synchronize_session=False
+            )
+        )
+
+        if updated > 0:
+            (
+                db.query(Bookings)
+                .filter(Bookings.booking_id == booking_id)
+                .update(
+                    {"sub_status_id": 1},
+                    synchronize_session=False
+                )
+            )
+
+        info = (
+            db.query(Bookings)
+            .filter(Bookings.booking_id == booking_id)
+            .first()
+        )
+
+        db.commit()
+
+        # -----------------------------
+        # Notifications (HOOKS)
+        # -----------------------------
+        # trainerPushNotification(...)
+        # customerPushNotification(...)
+        # SMS sending hooks
+
+        return {
+            "status": 200,
+            "booking_id": booking_id,
+            "message": "Booking Rescheduled Successfully."
         }
 
     except Exception as e:

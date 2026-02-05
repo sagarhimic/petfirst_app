@@ -2,7 +2,7 @@ from fastapi import Depends, Form
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.jwt_auth import get_auth_user_id
-from app.services.customers.trainer_booking_service import create_booking_service
+from app.services.customers.trainer_booking_service import create_booking_service, reschedule_trainer_booking_service
 
 
 def create_booking(
@@ -35,3 +35,30 @@ def create_booking(
         user_id=user_id,
         data=data
     )
+
+def reschedule_booking(
+    
+    booking_id: int = Form(...),
+    booking_from: str = Form(...),
+    booking_to: str = Form(...),
+    booking_time: str = Form(...),
+    
+    db: Session = Depends(get_db),
+    user_id: int = Depends(get_auth_user_id)
+):
+
+    data = {
+            "booking_id": booking_id,
+            "booking_from": booking_from,
+            "booking_to": booking_to,
+            "booking_time": booking_time
+        }
+
+    return reschedule_trainer_booking_service(
+        db=db,
+        user_id=user_id,
+        data=data
+    )
+
+
+    
