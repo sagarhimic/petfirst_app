@@ -74,14 +74,15 @@ def custom_openapi():
         "/api/customer/get-pet-details",
         "/api/customer/update-pet/{pet_id}",
         "/api/customer/add-primary-pet",
-        "/get-pet/{pet_id}",
-        "/add-user-location/{user_id}",
+        "/api/customer/get-pet/{pet_id}",
+        "/api/customer/add-user-location/{user_id}",
         "/add-to-cart",
-        "/get-cart-details",
-        "/get-bookings",
-        "/get-booking-details/{booking_id}",
-        "/cancel-booking",
+        "/api/customer/get-cart-details",
+        "/api/customer/get-bookings",
+        "/api/customer/get-booking-details/{booking_id}",
+        "/api/customer/cancel-booking",
         "/get-upcoming-bookings",
+        "/api/customer/create-trainer-booking",
         "/api/customers/customer/logout"
         ]
 

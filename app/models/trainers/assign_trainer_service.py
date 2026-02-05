@@ -29,3 +29,9 @@ class UserService(Base):
         "SubService",
         back_populates="assign_trainer_services"
     )
+
+    # trainer_cart_details = relationship(
+    #     "TrainerCartDetails",
+    #     primaryjoin="UserService.service_id == foreign(TrainerCartDetails.service_id)",
+    #     viewonly=True
+    # )

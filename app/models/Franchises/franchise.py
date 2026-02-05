@@ -31,3 +31,9 @@ class Franchise(Base):
     updated_by = Column(Integer, nullable=True)
 
     bookings = relationship("Bookings", back_populates="franchise")
+
+    # trainer_carts = relationship(
+    #     "TrainerCart",
+    #     back_populates="franchise",
+    #     cascade="all, delete-orphan"
+    # )

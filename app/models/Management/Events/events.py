@@ -27,4 +27,6 @@ class Events(Base):
     updated_at = Column(DateTime, nullable=True, default=datetime.utcnow, onupdate=datetime.utcnow)
     updated_by = Column(Integer, nullable=True)
 
+    # trainer_cart_details = relationship("TrainerCartDetails", back_populates="eventname")
+
 

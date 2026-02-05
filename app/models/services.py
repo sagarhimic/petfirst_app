@@ -18,3 +18,5 @@ class Services(Base):
         foreign_keys="Bookings.service_type",
         back_populates="servicetype"
     )
+
+    # trainer_carts = relationship("TrainerCart", back_populates="servicename")
