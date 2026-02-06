@@ -7,6 +7,8 @@ from app.core.jwt_auth import get_auth_user_id
 from app.services.customers.doctor_service import get_doctors_service
 from app.services.customers.doctor_details_service import doctor_details_service
 from app.services.customers.doctor_booking_service import create_doctor_booking_service
+from app.services.customers.reschedule_clinic_booking_service import reschedule_clinic_booking_service
+from app.services.customers.generate_time_slots_service import  generate_time_slots_service
 
 def get_doctors(
     request: Request,
@@ -76,4 +78,36 @@ def create_doctor_booking(
             "payment_status": payment_status,
             "kms": kms
         }
+    )
+
+# Reschedule Booking
+def reschedule_clinic_booking(
+    booking_id: int,
+    booking_from: str = Form(...),
+    # booking_to: str = Form(...),
+    booking_time: str = Form(...),
+    db: Session = Depends(get_db),
+    user_id: int = Depends(get_auth_user_id)
+):
+    data = {
+        "booking_from": booking_from,
+        # "booking_to": booking_to,
+        "booking_time": booking_time
+    }
+
+    return reschedule_clinic_booking_service(
+        db=db,
+        user_id=user_id,
+        booking_id=booking_id,
+        data=data
+    )
+
+# generate Time Slots
+def generate_time_slots(
+    booking_type: int = Query(..., description="1 = Tele Medicine, 2 = House Call"),
+    kms: float = Query(..., description="Distance in kilometers")
+):
+    return generate_time_slots_service(
+        booking_type=booking_type,
+        kms=kms
     )

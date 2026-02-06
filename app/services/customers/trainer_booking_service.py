@@ -207,8 +207,6 @@ def reschedule_trainer_booking_service(
         booking_to   = parse_date(data.get("booking_to"))
         booking_time = parse_time(data.get("booking_time"))
 
-        print("Debug:",booking_from)
-
         now = datetime.utcnow()
 
         db.begin()
