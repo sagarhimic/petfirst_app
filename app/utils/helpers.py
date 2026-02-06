@@ -110,3 +110,38 @@ def build_full_url(request: Request, path: str | None):
         return None
     return f"{request.base_url}{path.lstrip('/')}"
 
+# def booking_type_price(booking_type: int, kms: float) -> float:
+#     if booking_type == 1:      # Tele Medicine
+#         return 500
+#     elif booking_type == 2:    # House Call
+#         return 500 + (kms * 50)
+#     return 0
+
+def booking_type_price(booking_type: int, kms: float) -> float:
+    if booking_type == 1:
+        return {
+            "price": 600,
+            "hours_diff": 15
+        }
+
+    elif booking_type == 2:
+        if kms < 5:
+            return {
+                "price": 1000,
+                "hours_diff": 75
+            }
+        elif 5 <= kms < 7:
+            return {
+                "price": 1000,
+                "hours_diff": 75
+            }
+        elif 7 <= kms <= 15:
+            return {
+                "price": 1500,
+                "hours_diff": 135
+            }
+        else:
+            return "Not Serviceable"
+
+
+
