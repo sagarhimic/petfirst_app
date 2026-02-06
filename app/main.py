@@ -10,6 +10,7 @@ from app.routes.cart import router as cart_router
 from app.routes.customers_reunion import router as reunion_router
 from app.routes.customers_bank_info import router as bank_router
 from app.routes.customers_booking import router as booking_router
+from app.routes.get_franchise import router as franchise_router
 from fastapi.openapi.utils import get_openapi
 from fastapi.security import HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
@@ -109,3 +110,4 @@ app.include_router(cart_router)
 app.include_router(booking_router)
 app.include_router(reunion_router)
 app.include_router(bank_router)
+app.include_router(franchise_router)

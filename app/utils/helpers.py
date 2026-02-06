@@ -1,6 +1,6 @@
 from datetime import datetime, date, time
 from typing import Optional
-from fastapi import HTTPException
+from fastapi import HTTPException, Request
 
 def format_date(date_val: Optional[datetime], fmt: str = "%d-%m-%Y") -> Optional[str]:
     """
@@ -104,4 +104,9 @@ def parse_time(value: str | None) -> time | None:
             status_code=400,
             detail=f"Invalid time format: {value}. Expected HH:MM"
         )
+
+def build_full_url(request: Request, path: str | None):
+    if not path:
+        return None
+    return f"{request.base_url}{path.lstrip('/')}"
 
