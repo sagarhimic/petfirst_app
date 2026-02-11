@@ -11,6 +11,7 @@ from app.routes.customers_reunion import router as reunion_router
 from app.routes.customers_bank_info import router as bank_router
 from app.routes.customers_booking import router as booking_router
 from app.routes.get_franchise import router as franchise_router
+from app.routes.customers_pet_adoption import router as pet_adoption_router
 from fastapi.openapi.utils import get_openapi
 from fastapi.security import HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
@@ -65,7 +66,11 @@ def custom_openapi():
         "/api/customer/add-pet-parent",
         "/api/customer/pet-parent/{pet_parent_id}",
         "/api/customer/pet-parent/{pet_parent_id}/update",
-        "/api/customer/pet-parent-delete/{pet_parent_id}",
+        "/api/customer/pet-parent-delete/{pet_parent_id}",       
+        "/api/customer/create-enquiry/{pet_adoption_id}",
+        "/api/customer/enquiries-list",
+        "/api/customer/get-online-pets-list",
+        "/api/customer/pet-adoption-details/{pet_id}",                 
         "/api/customer/get-bank-details",
         "/api/customer/add-bank-details",
         "/api/customer/update-bank-primary/{bank_id}",
@@ -111,3 +116,4 @@ app.include_router(booking_router)
 app.include_router(reunion_router)
 app.include_router(bank_router)
 app.include_router(franchise_router)
+app.include_router(pet_adoption_router)

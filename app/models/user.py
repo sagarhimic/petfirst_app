@@ -25,5 +25,9 @@ class User(Base):
     access_for = Column(Integer, nullable=True)
 
     bookings = relationship("Bookings",back_populates="customer")
+    locations = relationship(
+        "UserLocation",
+        back_populates="user"
+    )
 
     # trainer_carts = relationship("TrainerCart", back_populates="customer")
