@@ -7,9 +7,15 @@ class FranchiseReview(Base):
     __tablename__ = "franchise_reviews"
 
     review_id = Column(Integer, primary_key=True)
-    user_id = Column(Integer)
+    user_id = Column(Integer, ForeignKey("users.id"))
     franchise_id = Column(Integer)
     rating = Column(Float)
     review_text = Column(Text)
     review_date = Column(DateTime, nullable=True, default=datetime.utcnow)
+
+
+    customer = relationship(
+        "User",
+        back_populates="franchise_service_review"
+    )
 

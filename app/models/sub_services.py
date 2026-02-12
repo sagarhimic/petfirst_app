@@ -32,3 +32,8 @@ class SubService(Base):
         "SubCategoryServices",
         back_populates="category"
     )
+
+    franchise_services = relationship(
+        "FranchiseService",
+        back_populates="subservice"
+    )

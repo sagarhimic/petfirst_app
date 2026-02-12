@@ -9,7 +9,10 @@ class ServiceImages(Base):
     
     id = Column(Integer, primary_key=True)
     franchise_id = Column(Integer)
-    service_id = Column(Integer)
+    service_id = Column(
+        Integer,
+        ForeignKey("sub_services.id")  # ✅ VERY IMPORTANT
+    )
     user_type = Column(Integer)
     image = Column(Text)
     created_at = Column(DateTime, nullable=True, default=datetime.utcnow)

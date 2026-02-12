@@ -12,6 +12,7 @@ from app.routes.customers_bank_info import router as bank_router
 from app.routes.customers_booking import router as booking_router
 from app.routes.get_franchise import router as franchise_router
 from app.routes.customers_pet_adoption import router as pet_adoption_router
+from app.routes.get_grooming import router as grooming_router
 from fastapi.openapi.utils import get_openapi
 from fastapi.security import HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
@@ -116,4 +117,5 @@ app.include_router(booking_router)
 app.include_router(reunion_router)
 app.include_router(bank_router)
 app.include_router(franchise_router)
+app.include_router(grooming_router)
 app.include_router(pet_adoption_router)

@@ -30,4 +30,20 @@ class User(Base):
         back_populates="user"
     )
 
+    franchise_service_review = relationship(
+        "FranchiseReview",
+        back_populates="customer"
+    )
+
+    userinfo = relationship(
+        "UserPersonalInfo",
+        uselist=False,   # hasOne
+        back_populates="user"
+    )
+
+    service_reviews = relationship(
+        "FranchiseServiceReview",
+        back_populates="user"
+    )
+
     # trainer_carts = relationship("TrainerCart", back_populates="customer")

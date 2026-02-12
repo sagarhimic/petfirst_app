@@ -10,7 +10,7 @@ class UserPersonalInfo(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    user_id = Column(Integer, index=True, nullable=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
 
     full_name = Column(String(125), nullable=True)
     email = Column(String(125), nullable=True)
@@ -31,4 +31,9 @@ class UserPersonalInfo(Base):
         "GenderInfo",
         backref="user_personal_info",
         lazy="joined"
+    )
+
+    user = relationship(
+        "User",
+        back_populates="userinfo"
     )

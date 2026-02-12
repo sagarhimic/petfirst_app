@@ -7,6 +7,8 @@ from app.models.bookings import Bookings
 from app.models.Franchises.franchise import Franchise
 from app.models.Franchises.doctor import Doctor
 from app.models.Franchises.doctor_info import DoctorInfo
+from app.models.Franchises.franchise_service_review import FranchiseServiceReview
+from app.models.Franchises.franchise_service import FranchiseService
 from app.models.services import Services
 from app.models.booking_status import BookingStatus
 from app.models.booking_address import BookingAddress
