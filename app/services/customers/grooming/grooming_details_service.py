@@ -16,6 +16,8 @@ from app.models.sub_category_services import SubCategoryServices
 from sqlalchemy import or_
 from datetime import datetime
 from app.utils.helpers import build_full_url
+from app.utils.common import checkDistanceRange
+from app.services.customers.grooming.get_nearby_grooming_service import get_nearby_grooming
 
 
 def grooming_details_service(
@@ -221,6 +223,27 @@ def grooming_details_service(
         # Location Info
         # --------------------------------------------------
         franchise = db.query(Franchise).get(franchise_id)
+        
+        user_location = (
+            db.query(UserLocation)
+            .filter(UserLocation.user_id == user_id)
+            .filter(UserLocation.is_primary == 1)
+            .first()
+        )
+
+        if not user_location:
+            raise HTTPException(status_code=400, detail="User location not found")
+
+        # Distance Calculation
+        distance_value = get_nearby_grooming(
+            db=db,
+            franchise_id=franchise.id,
+            latitude=user_location.latitude,
+            longitude=user_location.longitude
+        )
+
+        # Service Checking available
+        check_service = checkDistanceRange(distance_value)
 
         location_info = {
             "franchise_id": franchise.id if franchise else None,
@@ -231,8 +254,8 @@ def grooming_details_service(
             "state": franchise.state if franchise else None,
             "contact_number": franchise.contact_number if franchise else None,
             "pin_code": franchise.pin_code if franchise else None,
-            "distance": None,
-            "serviceble": None,
+            "distance": f"{distance_value}(kms)" if distance_value else None,
+            "serviceble": check_service,
             "rating": int(average_rating),
             "total_reviews": total_reviews,
             "total_franchise_bookings": booking_counts

@@ -8,3 +8,10 @@ def rating_perc(count: int, total: int) -> int:
 
 def format_time(time_obj):
     return time_obj.strftime("%I:%M %p") if time_obj else None
+
+
+def checkDistanceRange(kms):
+    if kms <= 15:
+        return "yes"
+    return "Not Serviceble"
+

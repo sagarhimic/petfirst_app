@@ -53,6 +53,8 @@ def create_bill_service(
             created_at=datetime.utcnow()
         )
 
+        # print(f"Response: {bill}")
+
         db.add(bill)
         db.flush()  # get bill.id
 

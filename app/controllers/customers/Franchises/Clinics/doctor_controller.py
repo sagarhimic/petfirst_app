@@ -84,14 +84,12 @@ def create_doctor_booking(
 def reschedule_clinic_booking(
     booking_id: int,
     booking_from: str = Form(...),
-    # booking_to: str = Form(...),
     booking_time: str = Form(...),
     db: Session = Depends(get_db),
     user_id: int = Depends(get_auth_user_id)
 ):
     data = {
         "booking_from": booking_from,
-        # "booking_to": booking_to,
         "booking_time": booking_time
     }
 

@@ -11,7 +11,6 @@ class GroomingCart(Base):
     franchise_id = Column(Integer)
     service_type = Column(Integer)
     booking_date = Column(DateTime, nullable=True)
-    booking_to = Column(DateTime, nullable=True)
     booking_time = Column(Time, nullable=True)
     assign_user_id = Column(Integer)
     customer_id = Column(Integer)
