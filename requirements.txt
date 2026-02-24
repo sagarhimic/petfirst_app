@@ -1,0 +1,26 @@
+# Core FastAPI
+fastapi==0.110.0
+uvicorn[standard]==0.27.1
+
+# Database (MySQL)
+sqlalchemy==2.0.25
+pymysql==1.1.0
+
+# JWT Authentication
+python-jose==3.3.0
+passlib[bcrypt]==1.7.4
+
+# Request validation
+pydantic==2.6.1
+
+# Multipart / File Upload
+python-multipart==0.0.9
+
+# Environment variables
+python-dotenv==1.0.1
+pydantic-settings
+pydantic[email]
+email-validator
+requests
+firebase-admin==6.5.0
+

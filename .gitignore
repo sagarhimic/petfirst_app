@@ -1,0 +1,4 @@
+app/security/
+.env
+venv/
+__pycache__/
