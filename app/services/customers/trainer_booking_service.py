@@ -166,7 +166,21 @@ def create_booking_service(
         # For Customer
         send_booking_notification(db, booking_id=booking.booking_id, user_type="customer")
 
-        
+        customer_noti_msg = {
+            "title": f"Dear {booking.customer.name}, Booking for Trainer Service - Confirmation | {datetime.now().strftime('%m/%d/%Y')}",
+            "desc": f"Dear {booking.customer.name} you have successfully booked Trainer Booking Service, booking ID - {booking_id}"
+        }
+
+        # Push Notifications
+
+        noti_users = [booking.user_id]
+
+        push_notification(
+            db=db,
+            users=noti_users,
+            send_data=customer_noti_msg,
+            user_type="user"
+        )
 
         return {
             "status": 200,
@@ -294,6 +308,22 @@ def reschedule_trainer_booking_service(
         send_reschedule_booking_notification(db, booking_id=booking_id, user_type="trainer")
         # For Customer
         send_reschedule_booking_notification(db, booking_id=booking_id, user_type="customer")
+
+        customer_noti_msg = {
+            "title": f"Dear {booking.customer.name}, Booking for Trainer Service - Reschedule Confirmation | {datetime.now().strftime('%m/%d/%Y')}",
+            "desc": f"Dear {booking.customer.name} you have successfully Rescheduled booked for Trainer Service, booking ID - {booking_id}"
+        }
+
+        # Push Notifications
+
+        noti_users = [booking.user_id]
+
+        push_notification(
+            db=db,
+            users=noti_users,
+            send_data=customer_noti_msg,
+            user_type="user"
+        )
 
         return {
             "status": 200,

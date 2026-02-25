@@ -115,6 +115,22 @@ def reschedule_grooming_booking_service(
             user_type="customer"
         )
 
+        customer_noti_msg = {
+            "title": f"Dear {booking.customer.name}, Reschedule Grooming Booking Service | {datetime.now().strftime('%m/%d/%Y')}",
+            "desc": f"Dear {booking.customer.name} you have successfully Reschedule Grooming Service booking ID - {booking_id}"
+        }
+
+        # Push Notifications
+
+        noti_users = [booking.user_id]
+
+        push_notification(
+            db=db,
+            users=noti_users,
+            send_data=customer_noti_msg,
+            user_type="user"
+        )
+
         return {
             "status": 200,
             "booking_id": booking_id,

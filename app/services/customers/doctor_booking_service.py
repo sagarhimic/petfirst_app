@@ -168,6 +168,22 @@ def create_doctor_booking_service(
             booking_type=data["booking_type"]
         )
 
+        # Push Notifications
+        
+        customer_noti_msg = {
+            "title": f"Dear {booking.customer.name}, Clinic Booking Confirmed | {datetime.now().strftime('%m/%d/%Y')}",
+            "desc": f"Dear {booking.customer.name} you have successfully confirmed Doctor Service booking ID - {booking_id}"
+        }
+
+        noti_users = [booking.user_id]
+
+        push_notification(
+            db=db,
+            users=noti_users,
+            send_data=customer_noti_msg,
+            user_type="user"
+        )
+
         return {
             "status": 200,
             "booking_id": booking.booking_id,

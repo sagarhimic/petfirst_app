@@ -120,6 +120,20 @@ def reschedule_clinic_booking_service(
 
         # pushNotification(...)
 
+        customer_noti_msg = {
+            "title": f"Dear {booking.customer.name}, Rescheduled Booking | {datetime.now().strftime('%m/%d/%Y')}",
+            "desc": f"Dear {booking.customer.name} We are pleased to inform you that your booking has been successfully rescheduled, booking ID - {booking_id}"
+        }
+
+        noti_users = [booking.user_id]
+
+        push_notification(
+            db=db,
+            users=noti_users,
+            send_data=customer_noti_msg,
+            user_type="user"
+        )
+
         return {
             "status": 200,
             "booking_id": booking_id,
